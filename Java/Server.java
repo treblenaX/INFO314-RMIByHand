@@ -23,8 +23,7 @@ public class Server {
                         // read the request
                         ObjectInputStream ois = new ObjectInputStream(is);
                         RemoteMethod rm = (RemoteMethod) ois.readObject();
-    
-                        System.out.println("Received request: " + rm.getMethodName() + " " + Arrays.toString(rm.getArgs()));
+
                         String methodName = rm.getMethodName();
                         Object[] parameters = rm.getArgs();
     
@@ -33,7 +32,6 @@ public class Server {
                         switch (methodName) {
                             case "add":
                                 sb.append(add((int) parameters[0], (int) parameters[1]));
-                                System.out.println("Result: " + sb.toString());
                                 break;
                             case "divide":
                                 try {
@@ -41,11 +39,9 @@ public class Server {
                                 } catch (Exception e) {
                                     sb.append(e.getClass().getSimpleName());
                                 }
-                                System.out.println("Result: " + sb.toString());
                                 break;
                             case "echo":
                                 sb.append(echo((String) parameters[0]));
-                                System.out.println("Result: " + sb.toString());
                                 break;
                             default:
                                 throw new Exception("Unknown method: " + methodName);

@@ -13,49 +13,66 @@ public class Client {
      * This method name and parameters must remain as-is
      */
     public static int add(int lhs, int rhs) {
-        connect();
+        String response = "";
+        try {
+            connect();
+    
+            RemoteMethod add = new RemoteMethod("add", new Object[] {lhs, rhs});
+    
+            writeRequest(add);
+    
+            response = readResponse();
+    
+            disconnect();
 
-        RemoteMethod add = new RemoteMethod("add", new Object[] {lhs, rhs});
+        } catch (Exception e) {
+            System.err.println("Add - FAILED");
+        }
 
-        writeRequest(add);
-
-        String response = readResponse();
-
-        disconnect();
-
-        return Integer.parseInt(response);
+        return (!response.equals("")) ? Integer.parseInt(response) : -1;
     }
     /**
      * This method name and parameters must remain as-is
      */
     public static int divide(int num, int denom) throws ArithmeticException {
-        connect();
+        String response = "";
 
-        RemoteMethod divide = new RemoteMethod("divide", new Object[] {num, denom});
-
-        writeRequest(divide);
-        String response = readResponse();
-
+        try {
+            connect();
+    
+            RemoteMethod divide = new RemoteMethod("divide", new Object[] {num, denom});
+    
+            writeRequest(divide);
+            response = readResponse();
+    
+            disconnect();
+        } catch (Exception e) {
+            System.err.println("Divide - FAILED");
+        }
+    
         if (response.equals("ArithmeticException")) throw new ArithmeticException();
 
-        disconnect();
-
-        return Integer.parseInt(response);
+        return (!response.equals("")) ? Integer.parseInt(response) : -1;
     }
     /**
      * This method name and parameters must remain as-is
      */
     public static String echo(String message) {
-        connect();
+        String response = "";
 
-        RemoteMethod echo = new RemoteMethod("echo", new Object[] {message});
-
-
-        writeRequest(echo);
-
-        String response = readResponse();
-
-        disconnect();
+        try {
+            connect();
+    
+            RemoteMethod echo = new RemoteMethod("echo", new Object[] {message});
+    
+            writeRequest(echo);
+    
+            response = readResponse();
+    
+            disconnect();
+        } catch (Exception e) {
+            System.err.println("Echo - FAILED");
+        }
 
         return response;
     }
@@ -66,7 +83,7 @@ public class Client {
             is = socket.getInputStream();
             os = socket.getOutputStream();
         } catch (Exception e) {
-            e.printStackTrace();
+            System.err.println("\nCould not connect to server: " + e.getMessage());
         }
     }
 
@@ -76,7 +93,7 @@ public class Client {
             ObjectOutputStream oos = new ObjectOutputStream(os);
             oos.writeObject(rm);
         } catch (IOException e) {
-            e.printStackTrace();
+            System.err.println("\nCould not write to server: " + e.getMessage());
         }
     }
 
@@ -92,7 +109,7 @@ public class Client {
     
 
         } catch (IOException e) {
-            e.printStackTrace();
+            System.err.println("\nCould not read from server: " + e.getMessage());
         }
         return data.toString();
     }
@@ -101,7 +118,7 @@ public class Client {
         try {
             socket.close();
         } catch (Exception e) {
-            e.printStackTrace();
+            System.err.println("\nDisconnection error with server: " + e.getMessage());
         }
     }
 

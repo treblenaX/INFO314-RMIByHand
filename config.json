@@ -1,0 +1,8 @@
+{
+    "title": "HTTP Server",
+    "files": {
+        "script.md": "How to Test",
+        "general.md": "General Tasks",
+        "error.md": "Error Handling"
+    }
+}
