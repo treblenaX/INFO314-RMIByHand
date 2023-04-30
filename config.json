@@ -1,8 +1,8 @@
 {
     "title": "HTTP Server",
     "files": {
-        "script.md": "How to Test",
-        "general.md": "General Tasks",
-        "error.md": "Error Handling"
+        "markdown/script.md": "How to Test",
+        "markdown/general.md": "General Tasks",
+        "markdown/error.md": "Error Handling"
     }
 }
